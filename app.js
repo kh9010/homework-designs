@@ -24,12 +24,12 @@
   ];
 
   const PORTFOLIO = [
-    { id: 1, title: 'DLF Phase-4 Villa', location: 'Gurgaon', category: 'Full Renovation', color: '#C9B99A' },
-    { id: 2, title: 'Sushant Lok Apartment', location: 'Gurgaon', category: 'Modular Kitchen', color: '#A0B2C6' },
-    { id: 3, title: 'Golf Course Road Flat', location: 'Gurgaon', category: 'Restyling', color: '#B8A9C9' },
-    { id: 4, title: 'South City-1 Penthouse', location: 'Gurgaon', category: 'Full Renovation', color: '#C6A0A0' },
-    { id: 5, title: 'Nirvana Country Villa', location: 'Gurgaon', category: 'Marble Polishing', color: '#A0C6A0' },
-    { id: 6, title: 'MG Road Office', location: 'Gurgaon', category: 'Color Consulting', color: '#C9C1A0' },
+    { id: 1, title: 'DLF Phase-4 Villa', location: 'Gurgaon', category: 'Full Renovation', color: '#C9B99A', year: '2024', scope: '5 BHK · 4200 sqft', description: 'A complete interior overhaul of a 5-bedroom independent villa. We reworked the layout to open up the living and dining areas, replaced all flooring with Italian marble, designed a bespoke modular kitchen, and crafted custom wardrobes throughout. Finished with a warm neutral palette, brass accents, and layered lighting.' },
+    { id: 2, title: 'Sushant Lok Apartment', location: 'Gurgaon', category: 'Modular Kitchen', color: '#A0B2C6', year: '2024', scope: '3 BHK · Kitchen only', description: 'A full modular kitchen rebuild in a Sushant Lok apartment. Handleless cabinetry in a soft dove-grey finish, quartz countertops, soft-close drawers, and an integrated tall unit for the oven and microwave. Tuned for a family that actually cooks every day.' },
+    { id: 3, title: 'Golf Course Road Flat', location: 'Gurgaon', category: 'Restyling', color: '#B8A9C9', year: '2023', scope: '2 BHK · Restyling', description: 'A restyling project for a young couple moving into their first home together. No walls touched — just a thoughtful refresh with new upholstery, accent walls, statement lighting, and curated art. The same flat, but finally home.' },
+    { id: 4, title: 'South City-1 Penthouse', location: 'Gurgaon', category: 'Full Renovation', color: '#C6A0A0', year: '2023', scope: '4 BHK · 3600 sqft', description: 'A top-floor penthouse reimagined as a calm, textured retreat. Raw plaster walls, reclaimed teak, and a slatted wood ceiling in the living room. The terrace was redone with ipê decking and a small outdoor dining area overlooking the skyline.' },
+    { id: 5, title: 'Nirvana Country Villa', location: 'Gurgaon', category: 'Marble Polishing', color: '#A0C6A0', year: '2023', scope: 'Villa · 6000 sqft floors', description: 'Full marble restoration across two floors of Makrana white and Statuario. Diamond-pad grinding, crystallization, and sealing — the floors came back to a mirror finish that hadn\'t been seen since the villa was built.' },
+    { id: 6, title: 'MG Road Office', location: 'Gurgaon', category: 'Color Consulting', color: '#C9C1A0', year: '2022', scope: 'Commercial · 2200 sqft', description: 'A color consulting engagement for a boutique office on MG Road. We developed a palette that worked with the existing furniture, layered in warm accent walls, and repainted the meeting rooms in a way that photographs well on video calls — a surprisingly common brief these days.' },
   ];
 
   const TIMELINE = [
@@ -72,14 +72,24 @@
   function navigate() {
     const hash = location.hash || '#/';
     const path = hash.slice(1) || '/';
-    const render = routes[path] || routes['/'];
 
-    // Update active nav
+    // Match parameterized routes first (e.g. /portfolio/3)
+    const portfolioDetailMatch = path.match(/^\/portfolio\/([^/]+)$/);
+    let render;
+    if (portfolioDetailMatch) {
+      const projectId = portfolioDetailMatch[1];
+      render = (c) => renderPortfolioDetail(c, projectId);
+    } else {
+      render = routes[path] || routes['/'];
+    }
+
+    // Update active nav — portfolio detail pages still highlight Portfolio tab
+    const navPath = portfolioDetailMatch ? '/portfolio' : path;
     navItems.forEach(item => {
       const view = item.getAttribute('data-view');
       const isActive =
-        (path === '/' && view === 'home') ||
-        path === '/' + view;
+        (navPath === '/' && view === 'home') ||
+        navPath === '/' + view;
       item.classList.toggle('active', isActive);
     });
 
@@ -160,7 +170,7 @@
       <p class="section-label">Latest Work</p>
       <div class="portfolio-grid">
         ${PORTFOLIO.slice(0, 4).map(p => `
-          <a href="#/portfolio" class="portfolio-item">
+          <a href="#/portfolio/${p.id}" class="portfolio-item">
             <div class="placeholder-img" style="width:100%;height:100%;background:linear-gradient(135deg, ${p.color} 0%, ${adjustColor(p.color, -30)} 100%)">
               <span style="font-size:0.7rem;opacity:0.6">${p.category}</span>
             </div>
@@ -224,7 +234,7 @@
 
       <div class="portfolio-grid">
         ${PORTFOLIO.map(p => `
-          <div class="portfolio-item">
+          <a href="#/portfolio/${p.id}" class="portfolio-item">
             <div class="placeholder-img" style="width:100%;height:100%;background:linear-gradient(135deg, ${p.color} 0%, ${adjustColor(p.color, -30)} 100%)">
               <span style="font-size:0.7rem;opacity:0.6">${p.category}</span>
             </div>
@@ -232,7 +242,7 @@
               <div class="portfolio-item-title">${p.title}</div>
               <div class="portfolio-item-location">${p.location}</div>
             </div>
-          </div>
+          </a>
         `).join('')}
       </div>
 
@@ -242,6 +252,79 @@
           <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
           @homework_homeimprovement
         </a>
+      </div>
+    `;
+  }
+
+  // ─── PORTFOLIO DETAIL ──────────────────
+
+  function renderPortfolioDetail(container, id) {
+    const project = PORTFOLIO.find(p => String(p.id) === String(id));
+
+    if (!project) {
+      container.innerHTML = `
+        <p class="section-label">Portfolio</p>
+        <h1 class="page-title">Project not found</h1>
+        <p class="page-subtitle">We couldn't find the project you were looking for.</p>
+        <a href="#/portfolio" class="btn btn-outline btn-sm">Back to Portfolio</a>
+      `;
+      return;
+    }
+
+    const related = PORTFOLIO.filter(p => p.id !== project.id).slice(0, 3);
+
+    container.innerHTML = `
+      <a href="#/portfolio" class="section-label" style="display:inline-block;text-decoration:none">← Portfolio</a>
+      <h1 class="page-title">${escapeHtml(project.title)}</h1>
+      <p class="page-subtitle">${escapeHtml(project.category)} · ${escapeHtml(project.location)}</p>
+
+      <div class="portfolio-detail">
+        <div class="portfolio-detail-image placeholder-img" style="background:linear-gradient(135deg, ${project.color} 0%, ${adjustColor(project.color, -40)} 100%);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.75);font-size:0.85rem;letter-spacing:0.05em">
+          ${escapeHtml(project.category)}
+        </div>
+
+        <div class="portfolio-detail-gallery">
+          ${[0, 1, 2].map(i => `
+            <div class="placeholder-img" style="aspect-ratio:1;border-radius:var(--radius-sm);background:linear-gradient(${135 + i * 30}deg, ${adjustColor(project.color, 10 - i * 10)} 0%, ${adjustColor(project.color, -20 - i * 10)} 100%)"></div>
+          `).join('')}
+        </div>
+
+        <div class="review-item">
+          <span class="review-label">Year</span>
+          <span class="review-value">${escapeHtml(project.year)}</span>
+        </div>
+        <div class="review-item">
+          <span class="review-label">Scope</span>
+          <span class="review-value">${escapeHtml(project.scope)}</span>
+        </div>
+        <div class="review-item">
+          <span class="review-label">Location</span>
+          <span class="review-value">${escapeHtml(project.location)}</span>
+        </div>
+
+        <p class="about-text" style="margin-top:var(--space-lg)">${escapeHtml(project.description)}</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <p class="section-label">More projects</p>
+      <div class="portfolio-grid">
+        ${related.map(p => `
+          <a href="#/portfolio/${p.id}" class="portfolio-item">
+            <div class="placeholder-img" style="width:100%;height:100%;background:linear-gradient(135deg, ${p.color} 0%, ${adjustColor(p.color, -30)} 100%)">
+              <span style="font-size:0.7rem;opacity:0.6">${p.category}</span>
+            </div>
+            <div class="portfolio-item-overlay">
+              <div class="portfolio-item-title">${p.title}</div>
+              <div class="portfolio-item-location">${p.location}</div>
+            </div>
+          </a>
+        `).join('')}
+      </div>
+
+      <div class="text-center mt-xl">
+        <p class="section-title">Like what you see?</p>
+        <a href="#/book" class="btn btn-primary mt-md">Book a Consultation</a>
       </div>
     `;
   }
