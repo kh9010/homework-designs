@@ -792,18 +792,25 @@
     return '#' + [r, g, b].map(c => c.toString(16).padStart(2, '0')).join('');
   }
 
-  // Background for portfolio grid tiles. Stacks the project photo on
-  // top of the brand-color gradient: if images/portfolio/{id}.jpg
-  // doesn't exist, the browser silently drops that layer and the
-  // gradient shows through — no broken-image flash.
+  // Resolves the image source for a project. If the project has an
+  // explicit `image` field (usually an absolute URL pointing at the
+  // live WordPress site's /wp-content/uploads/...), that wins.
+  // Otherwise, fall back to a local file at images/portfolio/{id}.jpg.
+  // In both cases the image is stacked over the brand gradient via
+  // CSS background-image: if the remote URL or local file fails to
+  // load, the gradient shows through silently (no broken-image flash).
+  function projectImageUrl(p) {
+    return p.image || `images/portfolio/${p.id}.jpg`;
+  }
+
   function tileBackground(p) {
     const gradient = `linear-gradient(135deg, ${p.color} 0%, ${adjustColor(p.color, -30)} 100%)`;
-    return `background-image:url('images/portfolio/${p.id}.jpg'), ${gradient};background-size:cover;background-position:center`;
+    return `background-image:url('${projectImageUrl(p)}'), ${gradient};background-size:cover;background-position:center`;
   }
 
   function heroBackground(p) {
     const gradient = `linear-gradient(135deg, ${p.color} 0%, ${adjustColor(p.color, -40)} 100%)`;
-    return `background-image:url('images/portfolio/${p.id}.jpg'), ${gradient};background-size:cover;background-position:center`;
+    return `background-image:url('${projectImageUrl(p)}'), ${gradient};background-size:cover;background-position:center`;
   }
 
   // ── Init ───────────────────────────────
