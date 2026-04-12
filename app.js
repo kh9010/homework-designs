@@ -85,7 +85,15 @@
 
     // View transition
     if (currentView === path) return;
+    const isFirstLoad = currentView === null;
     currentView = path;
+
+    if (isFirstLoad) {
+      // No exit animation on first load — render immediately
+      app.innerHTML = '';
+      render(app);
+      return;
+    }
 
     app.classList.add('view-exit');
     setTimeout(() => {
@@ -170,6 +178,7 @@
         <p class="section-label">Ready to transform your space?</p>
         <h2 class="section-title">Book a Free Consultation</h2>
         <a href="#/book" class="btn btn-primary mt-md">Get Started</a>
+        <a href="#/about" class="btn btn-outline mt-md">Our Story</a>
         <a href="https://wa.me/${WHATSAPP}" class="btn btn-whatsapp mt-md" target="_blank" rel="noopener">
           <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.116.549 4.106 1.514 5.834L.052 23.948l6.26-1.413A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75c-1.94 0-3.762-.527-5.325-1.447l-.38-.227-3.953.893.937-3.83-.25-.394A9.698 9.698 0 012.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75z"/></svg>
           Chat on WhatsApp
@@ -314,7 +323,7 @@
           `).join('')}
         </div>
         <div class="wizard-nav">
-          <button class="btn btn-primary" id="wizard-next" ${!s.service ? 'disabled style="opacity:0.5"' : ''}>Next</button>
+          <button class="btn btn-primary" id="wizard-next" ${!s.service ? 'disabled' : ''}>Next</button>
         </div>
       `;
     } else if (s.step === 2) {
@@ -452,7 +461,6 @@
           bookingState.service = card.dataset.service;
           const nextBtn = container.querySelector('#wizard-next');
           nextBtn.disabled = false;
-          nextBtn.style.opacity = '1';
         });
       });
     }
@@ -532,8 +540,15 @@
   function bindField(elementId, stateKey) {
     const el = document.getElementById(elementId);
     if (el) {
-      el.addEventListener('input', () => { bookingState[stateKey] = el.value.trim(); });
-      el.addEventListener('change', () => { bookingState[stateKey] = el.value.trim(); });
+      const update = () => {
+        bookingState[stateKey] = el.value.trim();
+        // Clear error state when user starts filling in the field
+        if (el.value.trim()) {
+          el.closest('.form-group')?.classList.remove('error');
+        }
+      };
+      el.addEventListener('input', update);
+      el.addEventListener('change', update);
     }
   }
 
@@ -629,6 +644,10 @@
       </div>
 
       <div class="divider"></div>
+
+      <div class="text-center mb-lg">
+        <a href="#/about" class="btn btn-outline btn-sm">About Homework</a>
+      </div>
 
       <p class="text-center card-desc" style="font-size:0.75rem;color:var(--color-text-light)">
         AM Services 24x7 Pvt. Ltd<br>Gurgaon, Haryana

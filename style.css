@@ -421,6 +421,13 @@ input, select, textarea {
   transform: scale(0.98);
 }
 
+.btn:disabled,
+.btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .btn-whatsapp {
   background: var(--color-whatsapp);
   color: #fff;

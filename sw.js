@@ -15,9 +15,11 @@ const SHELL_ASSETS = [
   './offline.html',
 ];
 
-const FONT_URLS = [
-  'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap',
-];
+// Filenames (without './') used for the shell-asset matching check.
+// Excludes './' because that matches every URL.
+const SHELL_FILENAMES = SHELL_ASSETS
+  .map(asset => asset.replace(/^\.\//, ''))
+  .filter(name => name.length > 0);
 
 // Install — cache shell assets
 self.addEventListener('install', event => {
@@ -59,7 +61,8 @@ self.addEventListener('fetch', event => {
   }
 
   // Shell assets — cache-first
-  if (event.request.mode === 'navigate' || SHELL_ASSETS.some(asset => url.pathname.endsWith(asset.replace('./', '')))) {
+  const isShellAsset = SHELL_FILENAMES.some(name => url.pathname.endsWith('/' + name) || url.pathname.endsWith(name));
+  if (event.request.mode === 'navigate' || isShellAsset) {
     event.respondWith(
       caches.match(event.request).then(cached => {
         const fetchPromise = fetch(event.request).then(response => {
