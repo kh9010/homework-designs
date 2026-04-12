@@ -36,6 +36,7 @@
       category: 'Full Renovation',
       scope: '3200 sqft apartment',
       color: '#C9B99A',
+      image: 'https://republicnewsindia.com/wp-content/uploads/2024/09/Interior-Design-Project-by-Homework-by-Shagun-Singh-Details-of-the-Project-at-Icon-Gurgaon-2.jpg',
       description: 'A renewed collaboration with an existing client. This 3200 sqft apartment at The Icon was reimagined through its most-used spaces — foyer, dining, drawing room, and master bedroom. The foyer was meticulously designed to camouflage the servant-room entrance and the MCB box into a cohesive, inviting entryway. The dining area carries a stunning bar and crockery section, artfully designed to display the client\'s crystal collection and offer a pull-up bar counter for entertaining. The master bedroom was tailored as a serene retreat, with dual his/her wardrobes and a cozy study nook, finished in a warm and comfortable aesthetic. The compact bathroom was rethought around a long vanity with integrated pull-out laundry, amplified by a large mirror that creates the illusion of more space.',
       quote: 'Throughout the project, the focus was on subtle color schemes and handpicked decor elements, ensuring that every detail reflects the client\'s personal style.',
     },
@@ -46,6 +47,7 @@
       category: 'Full Renovation',
       scope: '3000 sqft residence',
       color: '#C6A0A0',
+      image: 'https://republicnewsindia.com/wp-content/uploads/2024/08/1-1.jpg',
       description: 'A 3000 sqft residence in the premium DLF Belaire condominium, designed as a comfortable, elegant base for a couple whose child now lives and works abroad. With their visits to India often filled with entertaining friends, the brief was a space that blends traditional elegance with modern functionality — a sanctuary that reads as warm, sophisticated, and practical. Warm, earthy tones run throughout the home, and every detail from the flooring to the bathroom fixtures was chosen for a premium, enduring feel. Thoughtfully curated art pieces and accessories give the home character and reflect the couple\'s tastes and cultural roots.',
     },
     {
@@ -55,6 +57,7 @@
       category: 'Full Renovation',
       scope: '2600 sqft home',
       color: '#B8A9C9',
+      image: 'https://republicnewsindia.com/wp-content/uploads/2024/10/Interior-Design-Project-by-Shagun-Singh-Details-of-the-Project-at-Parsvnath-Exotica-Gurgaon-4.jpg',
       description: 'A 2600 sqft home on Golf Course Road that tells a story of elegance, thoughtful design, and a seamless blend of art and function. The clients were transitioning from a larger 3800 sqft residence, and the brief was to preserve the grandeur and functionality of their old home while crafting a more intimate, equally impressive space. Known for their impeccable taste and well-curated collection of art and artifacts, they needed a home that speaks to their love for art while maintaining sophistication and function. Custom cabinetry and integrated solutions run throughout, ensuring functionality never compromises the aesthetic. Bespoke pieces — a custom-designed bed and built-in storage — enhance the sense of luxury without adding visual clutter, while natural light, soft textures, and carefully chosen furnishings contribute to an overall sense of tranquility.',
     },
     {
@@ -64,6 +67,7 @@
       category: 'Full Renovation',
       scope: '2500 sqft · Second floor',
       color: '#A0C6A0',
+      image: 'https://architectureupdate.in/wp-content/uploads/2022/10/IMG_9541-scaled.jpg',
       description: 'A 2500 sqft second floor designed for a young couple as their own private space. The hero of the home is a very large attached terrace with a gorgeous mature tree lending shade and beauty. The floor was irregular — generous in some places, tight in others — so the layout had to balance aesthetics with logical accessibility. The main bedroom was reworked as the primary living quarters, the second bedroom became a family and entertainment room, and a Teak French door with an arched top turned into the real showstopper, anchoring the whole room. The terrace was transformed into an informal extension of the living space — mosaic feature tiles on the walls and ceiling, layered feature lighting, and a new built-in bar.',
     },
     {
@@ -73,6 +77,7 @@
       category: 'Full Renovation',
       scope: '1500 sqft apartment',
       color: '#A0B2C6',
+      image: 'https://architectureupdate.in/wp-content/uploads/2022/06/IMG-2773.jpg',
       description: 'A 1500 sqft apartment at Experion Windchants, designed with a Contemporary Classic sensibility for a very busy doctor who was deeply hands-on with the build. The brief was unusual: modern throughout, but certain pieces of furniture and art — all of great sentimental value — had to move with her into the new home. In the formal living space, where the large existing sofas shared the room with an old-world rocking chair, an accent media wall was added in rustic Spanish brick-finish tiles. On the balconies, many of the plants had travelled with the client for years and were carefully transplanted; a high table set with oversized planters was introduced to achieve privacy in the main balcony without losing the greenery.',
     },
   ];
