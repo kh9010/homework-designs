@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1a1a1a">
+  <title>Offline — Homework Design Studio</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      background: #FAF9F6;
+      color: #1A1A1A;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+      text-align: center;
+    }
+    .container { max-width: 360px; }
+    .icon {
+      width: 64px; height: 64px;
+      margin: 0 auto 1.5rem;
+      border-radius: 12px;
+      background: #1a1a1a;
+      display: flex; align-items: center; justify-content: center;
+      color: #B8860B;
+      font-family: Georgia, serif;
+      font-size: 2rem; font-weight: bold;
+    }
+    h1 {
+      font-family: Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+    p { color: #6B6B6B; line-height: 1.6; margin-bottom: 1.5rem; font-size: 0.95rem; }
+    .phone-link {
+      display: block;
+      padding: 14px 24px;
+      background: #B8860B;
+      color: #fff;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    .phone-link:active { opacity: 0.9; }
+    .whatsapp-link {
+      display: block;
+      padding: 14px 24px;
+      background: #25D366;
+      color: #fff;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .whatsapp-link:active { opacity: 0.9; }
+    .retry {
+      margin-top: 1.5rem;
+      padding: 10px 20px;
+      border: 1px solid #D1CEC7;
+      border-radius: 8px;
+      background: transparent;
+      color: #1A1A1A;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">H</div>
+    <h1>You're offline</h1>
+    <p>No worries — you can still reach us directly.</p>
+    <a href="tel:+917042832335" class="phone-link">Call +91 70428 32335</a>
+    <a href="https://wa.me/919953770123" class="whatsapp-link">WhatsApp +91 99537 70123</a>
+    <button class="retry" onclick="location.reload()">Try again</button>
+  </div>
+</body>
+</html>
