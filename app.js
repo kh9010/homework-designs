@@ -22,6 +22,8 @@
     { id: 'restyling', title: 'Restyling', icon: 'restyle', desc: 'Refresh your space without a full renovation. Furniture rearrangement, accent walls, lighting, and decor updates.' },
     { id: 'vanities', title: 'Hand-Crafted Vanities', icon: 'vanity', desc: 'Bespoke bathroom vanities built with solid wood, natural stone tops, and artisan hardware.' },
     { id: 'cleaning', title: 'Deep Cleaning', icon: 'clean', desc: 'Professional deep cleaning for post-renovation, move-in, or seasonal refresh. Eco-friendly products.' },
+    { id: 'planning', title: 'Space Planning & Guidance', icon: 'planning', desc: 'Get the decisions right before anything is built or bought — layout planning, material choices, and an honest read on what your space can become.' },
+    { id: 'office', title: 'Office & Commercial Interiors', icon: 'office', desc: 'Workspaces that engineer success: activity-based work zones, hybrid-ready meeting pods, and wellness-centric layouts for modern businesses.' },
   ];
 
   // Portfolio — real projects with editorial coverage.
@@ -84,6 +86,7 @@
   ];
 
   const TIMELINE = [
+    { year: 'Origins', text: 'Lt. Col. Surjit Singh (Retd.) founds AM Services 24×7 Pvt. Ltd as a manpower solutions company — the parent that Homework would later grow out of.' },
     { year: '2001', text: 'Shagun begins her career with ITC Hotels, honing her eye for luxury interiors and guest experience.' },
     { year: '2008', text: 'Leaves hospitality to pursue independent design work and raises her family.' },
     { year: '2012', text: 'Founds Homework in Gurgaon — originally as a specialist deep cleaning and marble polishing service, the only one of its kind in the city\'s high-end real estate at the time.' },
@@ -91,6 +94,14 @@
     { year: '2021', text: 'Crosses 50 full home renovations and close to 200 bathroom makeovers. Builds a trusted following on Instagram as @homework_homeimprovement.' },
     { year: '2024', text: '30K+ Instagram followers. Recognized as a trusted name in Gurgaon home renovations.' },
     { year: '2026', text: 'Launches the Homework Design Studio PWA — bringing project portfolios, booking, and contact to mobile.' },
+  ];
+
+  // Team — names from the live site's About page.
+  // TODO: confirm roles with Shagun before these go to print.
+  const TEAM = [
+    { name: 'Shagun Singh Baruah', role: 'Founder & Lead Designer', initial: 'S' },
+    { name: 'Neha', role: 'Design & Client Coordination', initial: 'N' },
+    { name: 'Govind', role: 'Site Execution', initial: 'G' },
   ];
 
   // ── Service icons (inline SVG) ─────────
@@ -104,6 +115,8 @@
       restyle: '<path d="M12 3v18"/><path d="M3 12l4-4v8z"/><path d="M21 12l-4-4v8z"/>',
       vanity: '<rect x="3" y="8" width="18" height="12" rx="1"/><path d="M7 8V6a5 5 0 0110 0v2"/><path d="M3 14h18"/>',
       clean: '<path d="M12 2v6"/><path d="M8 4l1 4"/><path d="M16 4l-1 4"/><path d="M5 8h14l-1 14H6z"/><path d="M9 12v4"/><path d="M15 12v4"/>',
+      planning: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 3v18"/><path d="M15 9v12"/><path d="M9 15h12"/>',
+      office: '<rect x="4" y="2" width="16" height="20" rx="1"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01M12 6h.01M16 6h.01M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01"/>',
     };
     return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${icons[type] || icons.home}</svg>`;
   }
@@ -183,8 +196,8 @@
       <div class="hero placeholder-hero">
         <div class="hero-overlay">
           <div class="hero-brand">Homework Design Studio</div>
-          <h1 class="hero-heading">Thoughtful spaces,<br>crafted with care</h1>
-          <p class="hero-sub">Interior design & renovation in Gurgaon since ${FOUNDED_YEAR}</p>
+          <h1 class="hero-heading">Luxury is a feeling,<br>not a price tag</h1>
+          <p class="hero-sub">Interior design & renovation in Gurgaon since ${FOUNDED_YEAR} — built on empathy and engineering</p>
         </div>
       </div>
 
@@ -384,11 +397,48 @@
       <div class="about-photo placeholder-img" style="display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--color-accent);background:var(--color-accent-bg)">S</div>
 
       <p class="about-text">
-        Homework Design Studio was founded by <strong>Shagun Singh Baruah</strong> in ${FOUNDED_YEAR}. After seven years with ITC Hotels — where she developed her eye for detail and luxury finishes — Shagun set out to bring that same hospitality-grade quality to residential interiors in Gurgaon.
+        Homework Design Studio was founded by <strong>Shagun Singh Baruah</strong> in ${FOUNDED_YEAR}. A designer by passion and a hotelier by education, Shagun spent seven years with ITC Hotels developing an eye for detail and luxury finishes — and set out to bring that hospitality-grade quality to homes in Gurgaon.
       </p>
       <p class="about-text">
-        What started as a one-woman operation has grown into a trusted team of 15+ skilled craftsmen, carpenters, marble specialists, and designers. Over 500 homes later, Homework continues to deliver thoughtful, well-crafted spaces that feel like home from day one.
+        Homework grew out of <strong>AM Services 24×7 Pvt. Ltd</strong>, founded by Lt. Col. Surjit Singh (Retd.) — first as a manpower company, then Gurgaon's specialist deep cleaning and marble polishing service, and from 2015 a full design-and-renovation studio. Fifty-plus full home renovations and close to two hundred bathroom makeovers later, every project is still treated as a bespoke narrative — never a cookie-cutter template.
       </p>
+
+      <div class="divider"></div>
+
+      <h2 class="section-title">What we believe</h2>
+      <p class="about-text">
+        Your home should work for you, not the other way around. We design on two pillars — <strong>empathy and engineering</strong> — because luxury is a feeling, not a price tag.
+      </p>
+      <div class="values-grid">
+        <div class="value-card">
+          <div class="value-title">Warm Minimalism</div>
+          <div class="card-desc">Terracotta, sage and sand over clinical whites. Calm rooms that still feel lived-in.</div>
+        </div>
+        <div class="value-card">
+          <div class="value-title">Global-Indian Fusion</div>
+          <div class="card-desc">Contemporary lines carrying Indian craft, art and material memory.</div>
+        </div>
+        <div class="value-card">
+          <div class="value-title">Built to age gracefully</div>
+          <div class="card-desc">Low-VOC paints, reclaimed teak and finishes chosen to last — not just to photograph.</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="section-title">The team</h2>
+      <div class="team-grid">
+        ${TEAM.map(m => `
+          <div class="team-card">
+            <div class="team-avatar">${escapeHtml(m.initial)}</div>
+            <div class="team-name">${escapeHtml(m.name)}</div>
+            <div class="team-role">${escapeHtml(m.role)}</div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="usp-callout">
+        <strong>Everyone on site is on our payroll.</strong> No subcontracted crews — our carpenters, marble specialists and painters are trained in-house, which is how we hold quality and timelines.
+      </div>
 
       <div class="divider"></div>
 
@@ -778,7 +828,7 @@
       </div>
 
       <p class="text-center card-desc" style="font-size:0.75rem;color:var(--color-text-light)">
-        AM Services 24x7 Pvt. Ltd<br>Gurgaon, Haryana
+        Homework Design Studio is a brand of AM Services 24×7 Pvt. Ltd<br>Gurgaon, Haryana
       </p>
     `;
   }
