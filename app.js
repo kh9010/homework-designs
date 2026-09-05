@@ -104,6 +104,29 @@
     { name: 'Govind', role: 'Site Execution', initial: 'G' },
   ];
 
+  // Journal — index of articles published on the live WordPress site.
+  // We link out rather than duplicate content; excerpts are ours.
+  const SITE_URL = 'https://homeworkdesigns.org';
+  const JOURNAL = [
+    { tag: 'Costs', title: 'Flat Renovation in Gurgaon 2026: Costs, Trends & Expert Tips', excerpt: 'Real 2026 budgets — 1BHK ₹7–11L, 2BHK ₹12–18L, 3BHK ₹20–35L — plus the trends: Mindful Luxury, invisible smart tech, Warm Minimalism.', url: `${SITE_URL}/flat-renovation-in-gurgaon-2026-costs-trends-expert-tips/` },
+    { tag: 'Costs', title: 'How Much Does Home Renovation Cost in Gurgaon? A Real Budget Breakdown', excerpt: '₹1,500–3,500 per sqft, bathrooms from ₹50k to ₹3L, and why older sectors need a 15% contingency.', url: `${SITE_URL}/how-much-does-home-renovation-cost-in-gurgaon-a-real-budget-breakdown/` },
+    { tag: 'Guide', title: 'Top 10 Interior Designers in Gurgaon 2026', excerpt: 'What separates a design studio from a factory-style firm — and how to choose one for your home.', url: `${SITE_URL}/top-10-interior-designers-in-gurgaon-2026-homework-design-studio/` },
+    { tag: 'Guide', title: 'Top Luxury Interior Designers in Gurgaon: Bespoke Home Design', excerpt: 'Warm Minimalism, Global-Indian Fusion, and why luxury now means a home that ages gracefully.', url: `${SITE_URL}/top-luxury-interior-designers-in-gurgaon-bespoke-home-design-by-homeworkdesigns/` },
+    { tag: 'Guide', title: 'Finding the Best Interior Designer in Gurgaon', excerpt: 'A practical guide to briefs, budgets, and the red flags to catch before you sign.', url: `${SITE_URL}/finding-the-best-interior-designer-in-gurgaon-transforming-your-house-into-a-dream-home/` },
+    { tag: 'Area', title: 'Home Renovation in Sector 56, Gurgaon', excerpt: 'Transforming everyday homes into elegant living spaces in one of Gurgaon\'s most-renovated sectors.', url: `${SITE_URL}/home-renovation-sector-56-gurgaon-transforming-everyday-homes-into-elegant-living-spaces/` },
+    { tag: 'Area', title: 'Interior Designer on Golf Course Extension Road', excerpt: 'Creating luxury homes that feel effortless along the Extension Road corridor.', url: `${SITE_URL}/home-renovation-sector-56-gurgaon-transforming-everyday-homes-into-elegant-living-spaces-2/` },
+    { tag: 'Area', title: 'Renovating a Home in Palam Vihar', excerpt: 'Why a Palam Vihar renovation is about more than upgrading interiors.', url: `${SITE_URL}/home-renovation-sector-56-gurgaon-transforming-everyday-homes-into-elegant-living-spaces-2-2-2/` },
+    { tag: 'Commercial', title: 'Top Office Interior Designer in Gurgaon: 2026 Trends', excerpt: 'Activity-based work zones, hybrid meeting pods, and wellness-centric layouts.', url: `${SITE_URL}/top-office-interior-designer-in-gurgaon-homeworkdesigns-2026-trends/` },
+    { tag: 'Commercial', title: 'Choosing a Commercial Interior Designer in India', excerpt: 'The definitive guide for businesses: what to ask, what to budget, what to avoid.', url: `${SITE_URL}/elevate-your-business-the-definitive-guide-to-choosing-a-commercial-interior-designer-in-india/` },
+  ];
+
+  // Areas we serve — from project history + the live site's local SEO.
+  const AREAS = [
+    'DLF Phase 1–5', 'Golf Course Road', 'Golf Course Extension Road', 'Sector 56',
+    'Sushant Lok', 'South City', 'Nirvana Country', 'Palam Vihar',
+    'Dwarka Expressway', 'MG Road', 'Suncity', 'Rail Vihar',
+  ];
+
   // ── Service icons (inline SVG) ─────────
 
   function serviceIcon(type) {
@@ -130,6 +153,7 @@
     '/about': renderAbout,
     '/book': renderBook,
     '/contact': renderContact,
+    '/journal': renderJournal,
   };
 
   let currentView = null;
@@ -244,6 +268,14 @@
           </a>
         `).join('')}
       </div>
+
+      <div class="divider"></div>
+
+      <p class="section-label">From the journal</p>
+      <div class="journal-list">
+        ${JOURNAL.slice(0, 3).map(journalItem).join('')}
+      </div>
+      <a href="#/journal" class="btn btn-outline btn-sm mb-xl" style="display:block;text-align:center;">Read All Articles</a>
 
       <div class="divider"></div>
 
@@ -456,6 +488,39 @@
 
       <div class="text-center">
         <p class="section-title">Work with us</p>
+        <a href="#/book" class="btn btn-primary mt-md">Book a Consultation</a>
+        <a href="#/journal" class="btn btn-outline mt-md">Read the Journal</a>
+      </div>
+    `;
+  }
+
+  // ─── JOURNAL ───────────────────────────
+
+  function journalItem(post) {
+    return `
+      <a href="${post.url}" class="journal-item" target="_blank" rel="noopener">
+        <div class="journal-tag">${escapeHtml(post.tag)}</div>
+        <div class="journal-title">${escapeHtml(post.title)}</div>
+        <div class="card-desc">${escapeHtml(post.excerpt)}</div>
+        <div class="journal-meta">Read on homeworkdesigns.org ↗</div>
+      </a>
+    `;
+  }
+
+  function renderJournal(container) {
+    container.innerHTML = `
+      <p class="section-label">Journal</p>
+      <h1 class="page-title">Notes on renovating in Gurgaon</h1>
+      <p class="page-subtitle">Costs, trends, and honest guidance from the studio — published on our main site.</p>
+
+      <div class="journal-list">
+        ${JOURNAL.map(journalItem).join('')}
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="text-center">
+        <p class="section-title">Have a project in mind?</p>
         <a href="#/book" class="btn btn-primary mt-md">Book a Consultation</a>
       </div>
     `;
@@ -820,6 +885,14 @@
         <p class="upi-note">Pay via UPI for advance bookings or material procurement.</p>
         <a href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent('Hi, I\'d like to make a payment. Could you share the UPI details?')}" class="btn btn-outline btn-sm" target="_blank" rel="noopener">Request UPI Details</a>
       </div>
+
+      <div class="divider"></div>
+
+      <p class="section-label">Areas we serve</p>
+      <div class="chip-row">
+        ${AREAS.map(a => `<span class="chip">${escapeHtml(a)}</span>`).join('')}
+      </div>
+      <p class="card-desc mb-lg">Across Gurugram — and by arrangement elsewhere in Delhi NCR.</p>
 
       <div class="divider"></div>
 
