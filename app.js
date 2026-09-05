@@ -90,6 +90,7 @@
     { year: '2015', text: 'Expands into full home renovations and end-to-end interior design, taking on both full and partial renovations.' },
     { year: '2021', text: 'Crosses 50 full home renovations and close to 200 bathroom makeovers. Builds a trusted following on Instagram as @homework_homeimprovement.' },
     { year: '2024', text: '30K+ Instagram followers. Recognized as a trusted name in Gurgaon home renovations.' },
+    { year: '2026', text: 'Launches the Homework Design Studio PWA — bringing project portfolios, booking, and contact to mobile.' },
   ];
 
   // ── Service icons (inline SVG) ─────────
