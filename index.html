@@ -7,20 +7,65 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Homework">
-  <meta name="description" content="Homework Design Studio — Interior design and renovation studio in Gurgaon by Shagun Singh. End-to-end home renovations, marble polishing, modular kitchens, and design consulting.">
+  <meta name="description" content="Homework Design Studio — interior designer in Gurugram led by Shagun Singh Baruah. Full home renovations, modular kitchens, restyling, colour consulting, space planning and office interiors, delivered by an in-house team since 2012.">
 
   <!-- Open Graph -->
   <meta property="og:title" content="Homework Design Studio">
   <meta property="og:description" content="Interior design and renovation studio in Gurgaon. End-to-end home renovations since 2012.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://homeworkdesigns.org">
+  <meta property="og:image" content="icons/icon-512.png">
 
-  <title>Homework Design Studio</title>
+  <title>Interior Designer in Gurugram | Home Renovation & Design | Homework Design Studio</title>
 
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HomeAndConstructionBusiness",
+    "name": "Homework Design Studio",
+    "alternateName": "Homework by AM Services",
+    "url": "https://homeworkdesigns.org",
+    "image": "https://homeworkdesigns.org/icons/icon-512.png",
+    "description": "Interior design and renovation studio in Gurugram led by Shagun Singh Baruah. Full home renovations, modular kitchens, restyling, colour consulting, space planning and office interiors, delivered by an in-house team since 2012.",
+    "telephone": "+917042832335",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+919953770123",
+      "contactType": "customer service",
+      "contactOption": "TollFree",
+      "availableLanguage": ["en", "hi"]
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "118, 1st Floor, Qutub Plaza, DLF Phase-1",
+      "addressLocality": "Gurugram",
+      "addressRegion": "Haryana",
+      "postalCode": "122001",
+      "addressCountry": "IN"
+    },
+    "foundingDate": "2012",
+    "founder": { "@type": "Person", "name": "Shagun Singh Baruah" },
+    "parentOrganization": { "@type": "Organization", "name": "AM Services 24x7 Pvt. Ltd" },
+    "priceRange": "₹₹₹",
+    "sameAs": ["https://www.instagram.com/homework_homeimprovement"],
+    "areaServed": [
+      "DLF Phase 1", "DLF Phase 2", "DLF Phase 3", "DLF Phase 4", "DLF Phase 5",
+      "Golf Course Road", "Golf Course Extension Road", "Sector 56", "Sushant Lok",
+      "South City", "Nirvana Country", "Palam Vihar", "Dwarka Expressway",
+      "MG Road", "Suncity", "Rail Vihar", "Gurugram", "Delhi NCR"
+    ],
+    "knowsAbout": [
+      "Home renovation", "Modular kitchens", "Marble polishing", "Colour consulting",
+      "Home restyling", "Space planning", "Office interiors", "Commercial interiors"
+    ]
+  }
+  </script>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -76,6 +121,11 @@
       <span>Contact</span>
     </a>
   </nav>
+
+  <!-- WhatsApp floating action button (hidden on Book + Contact by app.js) -->
+  <a id="wa-fab" class="fab" href="https://wa.me/919953770123" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.116.549 4.106 1.514 5.834L.052 23.948l6.26-1.413A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75c-1.94 0-3.762-.527-5.325-1.447l-.38-.227-3.953.893.937-3.83-.25-.394A9.698 9.698 0 012.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75z"/></svg>
+  </a>
 
   <!-- App Script -->
   <script src="app.js"></script>
