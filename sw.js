@@ -3,7 +3,7 @@
    Cache-first for shell, network-first for dynamic
    ======================================== */
 
-const CACHE_NAME = 'homework-v4';
+const CACHE_NAME = 'homework-v5';
 
 const SHELL_ASSETS = [
   './',

@@ -127,6 +127,36 @@
     'Dwarka Expressway', 'MG Road', 'Suncity', 'Rail Vihar',
   ];
 
+  // Cost estimator — every range here is published on the studio's own
+  // blog (Flat Renovation in Gurgaon 2026; How Much Does Home Renovation
+  // Cost in Gurgaon). Tier descriptions are ours; the numbers are hers.
+  const ESTIMATOR = {
+    byHome: [
+      { id: '1bhk', label: '1 BHK', min: 700000, max: 1100000 },
+      { id: '2bhk', label: '2 BHK', min: 1200000, max: 1800000 },
+      { id: '3bhk', label: '3 BHK', min: 2000000, max: 3500000 },
+      { id: '4bhk', label: '4 BHK +', min: 3500000, max: null },
+      { id: 'bath', label: 'Bathroom only', min: 50000, max: 300000 },
+    ],
+    tiers: [
+      { id: 'standard', label: 'Standard', perSqft: [1500, 2500], desc: 'Quality laminates, vitrified tiles, branded fittings.' },
+      { id: 'premium', label: 'Premium', perSqft: [2500, 3500], desc: 'Veneers, engineered stone, designer lighting, soft-close everything.' },
+      { id: 'luxury', label: 'Luxury', perSqft: [6500, 7500], desc: 'Italian marble, bespoke joinery, imported hardware, full turnkey.' },
+    ],
+    contingency: 0.15,
+  };
+
+  // Testimonials — PLACEHOLDERS. Real quotes live on homeworkdesigns.org
+  // and could not be fetched from this environment. Each entry with
+  // placeholder:true renders a visible "sample layout" note so an early
+  // deploy never passes these off as real. TODO: paste real quotes, drop
+  // the placeholder flag.
+  const TESTIMONIALS = [
+    { quote: 'TODO — paste real testimonial #1 from the live site.', name: 'Client name', context: 'Gurugram homeowner', placeholder: true },
+    { quote: 'TODO — paste real testimonial #2 from the live site.', name: 'Client name', context: 'Gurugram homeowner', placeholder: true },
+    { quote: 'TODO — paste real testimonial #3 from the live site.', name: 'Client name', context: 'Gurugram homeowner', placeholder: true },
+  ];
+
   // ── Service icons (inline SVG) ─────────
 
   function serviceIcon(type) {
@@ -154,13 +184,15 @@
     '/book': renderBook,
     '/contact': renderContact,
     '/journal': renderJournal,
+    '/estimate': renderEstimate,
   };
 
   let currentView = null;
 
   function navigate() {
     const hash = location.hash || '#/';
-    const path = hash.slice(1) || '/';
+    const viewKey = hash.slice(1) || '/';          // includes any ?query
+    const path = viewKey.split('?')[0] || '/';     // route only
 
     // Match parameterized routes first (e.g. /portfolio/3)
     const portfolioDetailMatch = path.match(/^\/portfolio\/([^/]+)$/);
@@ -182,10 +214,14 @@
       item.classList.toggle('active', isActive);
     });
 
+    // WhatsApp FAB — hide where the view already has its own WhatsApp CTA
+    const fab = document.getElementById('wa-fab');
+    if (fab) fab.classList.toggle('fab-hidden', path === '/book' || path === '/contact');
+
     // View transition
-    if (currentView === path) return;
+    if (currentView === viewKey) return;
     const isFirstLoad = currentView === null;
-    currentView = path;
+    currentView = viewKey;
 
     if (isFirstLoad) {
       // No exit animation on first load — render immediately
@@ -240,6 +276,14 @@
         </div>
       </div>
 
+      <a href="#/estimate" class="estimate-teaser">
+        <div>
+          <div class="estimate-teaser-title">What will my renovation cost?</div>
+          <div class="card-desc">Get a ballpark in ten seconds — real Gurgaon numbers.</div>
+        </div>
+        <span class="estimate-teaser-arrow">→</span>
+      </a>
+
       <p class="section-label">Our Services</p>
       <div class="card-grid">
         ${SERVICES.slice(0, 4).map(s => `
@@ -268,6 +312,10 @@
           </a>
         `).join('')}
       </div>
+
+      <div class="divider"></div>
+
+      ${testimonialsBlock()}
 
       <div class="divider"></div>
 
@@ -306,6 +354,7 @@
             <div class="card-icon">${serviceIcon(s.icon)}</div>
             <h3 class="card-title">${s.title}</h3>
             <p class="card-desc">${s.desc}</p>
+            <a href="#/book?service=${s.id}" class="card-link">Book this service →</a>
           </div>
         `).join('')}
       </div>
@@ -315,6 +364,7 @@
       <div class="text-center">
         <p class="section-title">Interested?</p>
         <a href="#/book" class="btn btn-primary mt-md">Book a Consultation</a>
+        <a href="#/estimate" class="btn btn-outline mt-md">Estimate my renovation cost</a>
       </div>
     `;
   }
@@ -414,9 +464,29 @@
 
       <div class="text-center mt-xl">
         <p class="section-title">Like what you see?</p>
-        <a href="#/book" class="btn btn-primary mt-md">Book a Consultation</a>
+        <a href="#/book?service=renovations" class="btn btn-primary mt-md">Book a similar renovation</a>
+        <button type="button" class="btn btn-outline mt-md" id="share-project">Share this project</button>
       </div>
     `;
+
+    // Native share with clipboard fallback
+    const shareBtn = container.querySelector('#share-project');
+    if (shareBtn) {
+      shareBtn.addEventListener('click', async () => {
+        const url = `${location.origin}${location.pathname}#/portfolio/${project.id}`;
+        const data = {
+          title: `${project.title} — Homework Design Studio`,
+          text: `${project.title}, ${project.location} · ${project.scope}`,
+          url,
+        };
+        try {
+          if (navigator.share) { await navigator.share(data); return; }
+          await navigator.clipboard.writeText(url);
+          shareBtn.textContent = 'Link copied';
+          setTimeout(() => { shareBtn.textContent = 'Share this project'; }, 1800);
+        } catch (e) { /* user dismissed the share sheet */ }
+      });
+    }
   }
 
   // ─── ABOUT ─────────────────────────────
@@ -474,6 +544,10 @@
 
       <div class="divider"></div>
 
+      ${testimonialsBlock()}
+
+      <div class="divider"></div>
+
       <h2 class="section-title">Journey</h2>
       <div class="timeline">
         ${TIMELINE.map(t => `
@@ -526,6 +600,136 @@
     `;
   }
 
+  // ─── TESTIMONIALS (shared block) ───────
+
+  function testimonialsBlock() {
+    const anyPlaceholder = TESTIMONIALS.some(t => t.placeholder);
+    return `
+      <p class="section-label">What clients say</p>
+      ${anyPlaceholder ? `<p class="placeholder-note">Sample layout — real client quotes are being added.</p>` : ''}
+      <div class="testimonial-list">
+        ${TESTIMONIALS.map(t => `
+          <blockquote class="testimonial">
+            <p class="testimonial-quote">&ldquo;${escapeHtml(t.quote)}&rdquo;</p>
+            <footer>
+              <span class="testimonial-name">${escapeHtml(t.name)}</span>
+              <span class="testimonial-context">${escapeHtml(t.context)}</span>
+            </footer>
+          </blockquote>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  // ─── ESTIMATE (cost estimator) ─────────
+
+  function fmtINR(n) {
+    if (n >= 10000000) return '₹' + (n / 10000000).toFixed(n % 10000000 ? 1 : 0) + ' Cr';
+    if (n >= 100000) return '₹' + (n / 100000).toFixed(n % 100000 ? 1 : 0) + ' L';
+    return '₹' + n.toLocaleString('en-IN');
+  }
+
+  let estState = { mode: 'home', home: '3bhk', sqft: 1500, tier: 'premium' };
+
+  function estimateRange() {
+    if (estState.mode === 'home') {
+      const h = ESTIMATOR.byHome.find(x => x.id === estState.home);
+      return h ? { min: h.min, max: h.max, label: h.label } : null;
+    }
+    const t = ESTIMATOR.tiers.find(x => x.id === estState.tier);
+    const sqft = Math.max(200, Math.min(20000, Number(estState.sqft) || 0));
+    if (!t || !sqft) return null;
+    return { min: sqft * t.perSqft[0], max: sqft * t.perSqft[1], label: `${sqft.toLocaleString('en-IN')} sqft · ${t.label} finish` };
+  }
+
+  function rangeText(r) {
+    if (!r) return '—';
+    if (r.max == null) return `from ${fmtINR(r.min)}`;
+    return `${fmtINR(r.min)} – ${fmtINR(r.max)}`;
+  }
+
+  function bufferText(r) {
+    if (!r || r.max == null) return '';
+    const k = 1 + ESTIMATOR.contingency;
+    return `With a 15% contingency: ${fmtINR(Math.round(r.min * k))} – ${fmtINR(Math.round(r.max * k))}`;
+  }
+
+  function estimateWhatsAppLink(r) {
+    const text = r
+      ? `Hi Homework, I used your cost estimator.\n\nScope: ${r.label}\nBallpark: ${rangeText(r)}\n\nI'd like an exact quote — could we schedule a site visit?`
+      : `Hi Homework, I'd like a renovation quote. Could we schedule a site visit?`;
+    return `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`;
+  }
+
+  function renderEstimate(container) {
+    const r = estimateRange();
+
+    container.innerHTML = `
+      <p class="section-label">Cost Estimator</p>
+      <h1 class="page-title">What will my renovation cost?</h1>
+      <p class="page-subtitle">Ballpark ranges from real Gurgaon projects. Your exact quote comes after a site visit.</p>
+
+      <div class="segmented" role="tablist">
+        <button type="button" class="seg-btn ${estState.mode === 'home' ? 'active' : ''}" data-mode="home">By home size</button>
+        <button type="button" class="seg-btn ${estState.mode === 'area' ? 'active' : ''}" data-mode="area">By area &amp; finish</button>
+      </div>
+
+      ${estState.mode === 'home' ? `
+        <div class="option-grid">
+          ${ESTIMATOR.byHome.map(h => `
+            <button type="button" class="option-card ${estState.home === h.id ? 'selected' : ''}" data-home="${h.id}">${h.label}</button>
+          `).join('')}
+        </div>
+      ` : `
+        <div class="form-group">
+          <label class="form-label" for="est-sqft">Carpet area (sqft)</label>
+          <input class="form-input" id="est-sqft" type="number" inputmode="numeric" min="200" max="20000" step="50" value="${estState.sqft}">
+        </div>
+        <div class="tier-list">
+          ${ESTIMATOR.tiers.map(t => `
+            <button type="button" class="tier-card ${estState.tier === t.id ? 'selected' : ''}" data-tier="${t.id}">
+              <div class="tier-head">
+                <span class="tier-label">${t.label}</span>
+                <span class="tier-rate">₹${t.perSqft[0].toLocaleString('en-IN')}–${t.perSqft[1].toLocaleString('en-IN')} / sqft</span>
+              </div>
+              <div class="card-desc">${t.desc}</div>
+            </button>
+          `).join('')}
+        </div>
+      `}
+
+      <div class="estimate-result">
+        <div class="estimate-label">Estimated range</div>
+        <div class="estimate-value">${rangeText(r)}</div>
+        <div class="estimate-buffer">${bufferText(r)}</div>
+        <p class="disclaimer">Ballpark only. Older sectors often hide plumbing or structural surprises — the final quote follows a site visit and a detailed BOQ.</p>
+      </div>
+
+      <a href="${estimateWhatsAppLink(r)}" class="btn btn-whatsapp mt-md" id="est-wa" target="_blank" rel="noopener">Send this estimate on WhatsApp</a>
+      <a href="#/book?service=renovations" class="btn btn-primary mt-md">Book a site visit</a>
+      <a href="#/journal" class="btn btn-outline mt-md">How we arrived at these numbers</a>
+    `;
+
+    container.querySelectorAll('.seg-btn').forEach(b =>
+      b.addEventListener('click', () => { estState.mode = b.dataset.mode; renderEstimate(container); }));
+    container.querySelectorAll('.option-card').forEach(b =>
+      b.addEventListener('click', () => { estState.home = b.dataset.home; renderEstimate(container); }));
+    container.querySelectorAll('.tier-card').forEach(b =>
+      b.addEventListener('click', () => { estState.tier = b.dataset.tier; renderEstimate(container); }));
+
+    // Sqft input: update in place so typing never loses focus
+    const sq = container.querySelector('#est-sqft');
+    if (sq) {
+      sq.addEventListener('input', () => {
+        estState.sqft = sq.value;
+        const r2 = estimateRange();
+        container.querySelector('.estimate-value').textContent = rangeText(r2);
+        container.querySelector('.estimate-buffer').textContent = bufferText(r2);
+        container.querySelector('#est-wa').href = estimateWhatsAppLink(r2);
+      });
+    }
+  }
+
   // ─── BOOK (4-step wizard) ──────────────
 
   let bookingState = {
@@ -541,7 +745,11 @@
   };
 
   function renderBook(container) {
-    bookingState = { step: 1, service: '', propertyType: '', location: '', description: '', name: '', phone: '', email: '', preferredTime: '' };
+    // Deep-link prefill: #/book?service=<id> preselects step 1.
+    const query = new URLSearchParams((location.hash.split('?')[1]) || '');
+    const requested = query.get('service') || '';
+    const service = SERVICES.some(s => s.id === requested) ? requested : '';
+    bookingState = { step: 1, service, propertyType: '', location: '', description: '', name: '', phone: '', email: '', preferredTime: '' };
     renderBookStep(container);
   }
 
