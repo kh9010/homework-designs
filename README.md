@@ -1,103 +1,72 @@
 # Homework Design Studio PWA
 
-Progressive Web App for Homework Design Studio (homeworkdesigns.org), an interior design and renovation studio in Gurgaon led by Shagun Singh.
+Progressive Web App for [Homework Design Studio](https://homeworkdesigns.org), an interior design and renovation studio in Gurugram led by Shagun Singh Baruah. Companion to the WordPress marketing site: same positioning, plus a booking wizard, per-project portfolio, and a cost estimator the main site doesn't have.
 
-## Status: Work in Progress
+No build step. Static files — deploy to any HTTPS host (GitHub Pages, Netlify, Vercel, Cloudflare Pages). All paths are relative, so it works at root or a subpath.
 
-### Done
-- `index.html` — app shell with bottom navigation, meta tags, manifest + service worker registration
-- `manifest.json` — PWA manifest (standalone, icons, theme colors)
-- `style.css` — complete design system with warm/luxury palette (off-white + brass/gold), bottom nav, forms, cards, wizard UI, portfolio grid, contact cards
-- `favicon.svg` — "H" monogram favicon
+## Status
 
-### TODO
-- [ ] **`app.js`** — Hash router and all 6 view renderers:
-  - `#/` Home (hero, stats, service cards, CTA)
-  - `#/services` Services list (7 services)
-  - `#/portfolio` Portfolio grid (placeholder images)
-  - `#/about` Shagun's story + timeline
-  - `#/book` 4-step booking wizard → WhatsApp deep link
-  - `#/contact` Address, phones, socials, UPI deep link
-- [ ] **`sw.js`** — Service worker (cache-first for shell, network-first for dynamic, offline fallback)
-- [ ] **`offline.html`** — Offline fallback page with phone numbers
-- [ ] **`icons/`** — Generate PNG icons from `favicon.svg`:
-  - `icon-192.png` (192x192)
-  - `icon-512.png` (512x512)
-  - `icon-maskable-192.png` (maskable, safe zone)
-  - `icon-maskable-512.png` (maskable, safe zone)
-  - `apple-touch-icon.png` (180x180)
+Feature-complete for v1. Everything below is implemented and verified headless (Playwright: all routes render, zero page errors).
 
-## Design System (already in style.css)
+| Route | View |
+|---|---|
+| `#/` | Home — hero, real stats, estimator teaser, services, latest work, testimonials, journal teaser, CTAs |
+| `#/services` | 9 services, each with a "Book this service" prefilled link |
+| `#/portfolio` | Grid of 5 real projects (press-covered) |
+| `#/portfolio/:id` | Project detail — photo, scope, write-up, pull-quote, share, "book similar" |
+| `#/about` | Story, origin (AM Services 24×7), values, team, payroll USP, testimonials, timeline |
+| `#/journal` | Index of the 10 articles on the main site (links out) |
+| `#/estimate` | Cost estimator by home size or sqft × finish, using the studio's published ranges |
+| `#/book` | 4-step wizard → WhatsApp deep link. Accepts `?service=<id>` to preselect |
+| `#/contact` | Call / WhatsApp / Instagram / address, areas served, UPI request |
+
+Also: installable (icons generated from `favicon.svg`), offline fallback, `robots.txt`, Open Graph image, `HomeAndConstructionBusiness` JSON-LD.
+
+## Files
+
+- `index.html` — shell, meta/OG/JSON-LD, bottom nav, WhatsApp FAB, SW registration
+- `app.js` — hash router + all views + data (`SERVICES`, `PORTFOLIO`, `TIMELINE`, `TEAM`, `JOURNAL`, `AREAS`, `ESTIMATOR`, `TESTIMONIALS`)
+- `style.css` — design system (warm off-white + brass), components
+- `sw.js` — cache-first shell, network-first everything else; bump `CACHE_NAME` on every `app.js` change
+- `manifest.json`, `icons/`, `favicon.svg`, `offline.html`, `robots.txt`
+- `images/portfolio/` — drop `{id}.jpg` here to serve photos locally (see its README)
+- `fetch-images.sh` — downloads the 5 press photos into `images/portfolio/` (run anywhere with network)
+- `build-icons.sh` — regenerates `icons/*.png` from `favicon.svg` (needs `npm install sharp`)
+
+## Still needs input from Shagun
+
+- **Testimonials** — `TESTIMONIALS` in `app.js` holds 3 placeholders that render a visible "sample layout" note. Paste real quotes, remove `placeholder: true`.
+- **Team roles** — `TEAM` lists Shagun, Neha, Govind with provisional roles (`TODO` comment).
+- **UPI ID** — Contact still shows "Request UPI Details" via WhatsApp; a real `upi://pay?pa=…` link needs her VPA.
+- **Photos** — hero and About portrait are gradients; project photos are hot-linked from press sites until `fetch-images.sh` is run and the `image:` fields are dropped.
+- **Pricing sanity check** — estimator ranges are lifted from her own blog posts; worth a glance before promoting the feature.
+
+## Design system
 
 ```
-Palette:
-  --color-bg:      #FAF9F6  (warm off-white, plaster walls)
-  --color-text:    #1A1A1A  (near-black)
-  --color-accent:  #B8860B  (brass/gold — luxury hardware vibe)
-  --color-surface: #F2F0EC  (warm card backgrounds)
-
-Typography:
-  Headings: DM Serif Display (elegant serif)
-  Body:     Inter (clean sans)
-
-Layout:
-  Max content width: 480px (mobile-first, app-like)
-  Fixed bottom tab nav: 5 tabs (Home / Services / Portfolio / Book / Contact)
-  Safe-area insets for iPhone notch
+Palette:   bg #FAF9F6 · text #1A1A1A · accent (brass) #B8860B · surface #F2F0EC
+Type:      DM Serif Display (headings) · Inter (body)
+Layout:    480px max, mobile-first, fixed 5-tab bottom nav, iOS safe-area aware
 ```
 
-## Business Context
+## Business context
 
-- **Founder**: Shagun Singh (ex-ITC Hotels 2001–2008, Homework since 2012)
-- **Location**: 118, 1st Floor, Qutub Plaza, DLF Phase-1, Gurgaon Haryana 122001
-- **Phones**: +91-7042832335, +91-9953770123 (WhatsApp primary)
-- **Instagram**: @homework_homeimprovement (30K followers)
-- **Services**: Full Home Renovations, Modular Kitchens, Marble Polishing, Color Consulting, Restyling, Hand-Crafted Vanities, Deep Cleaning
-- **Legal name**: AM Services 24x7 Pvt. Ltd
+- **Founder:** Shagun Singh Baruah — hotelier by education (ITC Hotels 2001–2008), designer by passion
+- **Parent company:** AM Services 24×7 Pvt. Ltd, founded by Lt. Col. Surjit Singh (Retd.); manpower → deep cleaning & marble polishing (2012) → full renovations (2015)
+- **Track record:** 50+ full home renovations, ~200 bathroom makeovers (as of end-2021)
+- **Office:** 118, 1st Floor, Qutub Plaza, DLF Phase-1, Gurugram 122001
+- **Phones:** +91-7042832335 · WhatsApp +91-9953770123
+- **Instagram:** @homework_homeimprovement
 
-## Booking Flow (multi-step wizard)
+## App store wrapping
 
-1. **Select Service** — visual cards for each of the 7 services
-2. **Property Details** — type (Apartment/Villa/Office), location, description
-3. **Contact Info** — name, phone (+91), email, preferred contact time
-4. **Review & Send** — summary, then green "Send via WhatsApp" button
+Use [PWABuilder](https://pwabuilder.com) against the deployed HTTPS URL → package for iOS (Xcode project, Apple Developer account) and Android (TWA). Icons and manifest already satisfy its checks.
 
-WhatsApp deep link target:
+## Verifying locally
+
 ```
-https://wa.me/919953770123?text={url-encoded message with all form fields}
+python3 -m http.server 8123
+# open http://127.0.0.1:8123/#/
 ```
 
-## UPI Payment (Contact view)
-
-Simple deep link, no payment gateway:
-```
-upi://pay?pa={UPI_ID}&pn=Homework%20Design%20Studio&cu=INR
-```
-Shagun needs to provide her UPI ID before this goes live.
-
-## App Store Wrapping Path
-
-Use [PWABuilder](https://pwabuilder.com):
-1. Deploy PWA to HTTPS URL
-2. Enter URL at pwabuilder.com
-3. Fix any manifest/SW/icon issues flagged
-4. Click "Package for stores"
-5. **iOS**: Download Xcode project, sign with Apple Developer ($99/yr), submit
-6. **Android**: Download Trusted Web Activity (TWA) project, build in Android Studio, submit to Play Store
-
-No Node.js / build tools needed.
-
-## Verification Checklist (once complete)
-
-- [ ] Open `index.html` locally — all 6 views navigate correctly via hash routing
-- [ ] Bottom nav active state updates when navigating
-- [ ] Booking wizard: all 4 steps work, WhatsApp link opens with pre-filled message
-- [ ] UPI link opens UPI apps on Android
-- [ ] Run Lighthouse PWA audit — should pass installability
-- [ ] Test offline: airplane mode after first load → `offline.html` appears
-- [ ] Run PWABuilder audit at pwabuilder.com after deployment
-- [ ] Test on real iOS + Android devices
-
-## Notes on Handoff
-
-The `homework/` directory is self-contained — it can be moved as-is into a new standalone repo, then deployed to any static host (GitHub Pages, Netlify, Vercel, Cloudflare Pages). All paths in `index.html` and `manifest.json` are relative, so it'll work at any subpath or root.
+Checklist: all routes render · bottom-nav active state · `#/book?service=kitchens` preselects Kitchens · estimator 3 BHK shows ₹20 L–₹35 L · Lighthouse PWA installable · airplane mode → `offline.html`.
