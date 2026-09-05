@@ -12,6 +12,7 @@
   // ── Business data ──────────────────────
 
   const WHATSAPP = '919953770123';
+  const FOUNDED_YEAR = 2012;
 
   const SERVICES = [
     { id: 'renovations', title: 'Full Home Renovations', icon: 'home', desc: 'End-to-end renovation — from design concept to final handover. Walls, flooring, electrical, plumbing, carpentry, and finishing.' },
@@ -182,22 +183,22 @@
         <div class="hero-overlay">
           <div class="hero-brand">Homework Design Studio</div>
           <h1 class="hero-heading">Thoughtful spaces,<br>crafted with care</h1>
-          <p class="hero-sub">Interior design & renovation in Gurgaon since 2012</p>
+          <p class="hero-sub">Interior design & renovation in Gurgaon since ${FOUNDED_YEAR}</p>
         </div>
       </div>
 
       <div class="stats-row">
         <div class="stat">
-          <div class="stat-value">500+</div>
-          <div class="stat-label">Projects</div>
+          <div class="stat-value">50+</div>
+          <div class="stat-label">Renovations</div>
         </div>
         <div class="stat">
-          <div class="stat-value">12+</div>
+          <div class="stat-value">200+</div>
+          <div class="stat-label">Bathrooms</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">${new Date().getFullYear() - FOUNDED_YEAR}+</div>
           <div class="stat-label">Years</div>
-        </div>
-        <div class="stat">
-          <div class="stat-value">30K</div>
-          <div class="stat-label">Followers</div>
         </div>
       </div>
 
@@ -345,7 +346,7 @@
         ${project.quote ? `
           <blockquote class="about-text" style="margin-top:var(--space-lg);padding-left:var(--space-md);border-left:3px solid var(--color-accent);font-style:italic;color:var(--color-text-light)">
             &ldquo;${escapeHtml(project.quote)}&rdquo;
-            <footer style="margin-top:var(--space-xs);font-size:0.8rem;font-style:normal">— Shagun Singh, Homework</footer>
+            <footer style="margin-top:var(--space-xs);font-size:0.8rem;font-style:normal">— Shagun Singh Baruah, Homework</footer>
           </blockquote>
         ` : ''}
       </div>
@@ -382,7 +383,7 @@
       <div class="about-photo placeholder-img" style="display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--color-accent);background:var(--color-accent-bg)">S</div>
 
       <p class="about-text">
-        Homework Design Studio was founded by <strong>Shagun Singh</strong> in 2012. After seven years with ITC Hotels — where she developed her eye for detail and luxury finishes — Shagun set out to bring that same hospitality-grade quality to residential interiors in Gurgaon.
+        Homework Design Studio was founded by <strong>Shagun Singh Baruah</strong> in ${FOUNDED_YEAR}. After seven years with ITC Hotels — where she developed her eye for detail and luxury finishes — Shagun set out to bring that same hospitality-grade quality to residential interiors in Gurgaon.
       </p>
       <p class="about-text">
         What started as a one-woman operation has grown into a trusted team of 15+ skilled craftsmen, carpenters, marble specialists, and designers. Over 500 homes later, Homework continues to deliver thoughtful, well-crafted spaces that feel like home from day one.
